@@ -14,27 +14,20 @@ public class ResumeDTO {
 	private String r_content;
 	private int r_head;
 	private int r_io;
-	private String region;
-	private String field;
-	private String r_exp;
+	private String name;
+	private int matching;
 	
-	public String getR_exp() {
-		return r_exp;
+	public String getName() {
+		return name;
 	}
-	public void setR_exp(String r_exp) {
-		this.r_exp = r_exp;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getRegion() {
-		return region;
+	public int getMatching() {
+		return matching;
 	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	public String getField() {
-		return field;
-	}
-	public void setField(String field) {
-		this.field = field;
+	public void setMatching(int matching) {
+		this.matching = matching;
 	}
 	public int getR_num() {
 		return r_num;

@@ -7,9 +7,7 @@ public class ProjectDTO {
 	private int p_num;
 	private String id;
 	private int region_num;
-	private String region;
 	private int field_num;
-	private String field;
 	private String p_title;
 	private String p_content;
 	private Timestamp p_writedate;
@@ -18,8 +16,21 @@ public class ProjectDTO {
 	private Timestamp p_start;
 	private Timestamp p_end;
 	private int p_member;
-
+	private int matching;
+	private String name;
 	
+	public int getMatching() {
+		return matching;
+	}
+	public void setMatching(int matching) {
+		this.matching = matching;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getP_num() {
 		return p_num;
 	}
@@ -38,23 +49,11 @@ public class ProjectDTO {
 	public void setRegion_num(int region_num) {
 		this.region_num = region_num;
 	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
 	public int getField_num() {
 		return field_num;
 	}
 	public void setField_num(int field_num) {
 		this.field_num = field_num;
-	}
-	public String getField() {
-		return field;
-	}
-	public void setField(String field) {
-		this.field = field;
 	}
 	public String getP_title() {
 		return p_title;
