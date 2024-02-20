@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 
 	<head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>공T 프로젝트 찾기</title>
+        <title>공T 프리랜서 찾기</title>
         <script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.min.js"></script>
         
         
@@ -64,6 +64,7 @@ h2{
 	margin-left: 5%;
 }
 
+
 #right {
 	clear: inherit;
 	text-align: center;
@@ -71,7 +72,8 @@ h2{
 	position: absolute;
 	top : 30%;
 	left : 35%;
-	}
+}
+
 
 table {
  	width: 1000px !important;
@@ -105,7 +107,7 @@ h5{
     <body>
     
 <!--	Navbar Start -->
-    <jsp:include page="top_240213.jsp"/>
+    <jsp:include page="../inc/top.jsp"/>
 <!--	Navbar End -->
 
 <div class="container-fluid project py-5 my-5" style="height:100%;
@@ -116,12 +118,12 @@ h5{
 <!-- ★★★★★★★★★★★★★★ 본문 여기에 넣으시면 됩니다 ★★★★★★★★★★★★★★ -->
 
 <div id="up" style="margin-top: 50px !important;">
-	<h2>프로젝트 찾기</h2>	
+	<h2>프리랜서 찾기</h2>	
 </div>
 
 <div class="sidemenu">
-        <button type="button" class="button button-update" style="background-color: blue;"><span onclick="location.href='${pageContext.request.contextPath}/project'" style="color: white !important;">프로젝트 찾기</span></button>
-        <button type="button" class="button button-update"><span onclick="location.href='${pageContext.request.contextPath}/resume'">프리랜서 찾기</span></button>
+        <button type="button" class="button button-update"><span onclick="location.href='${pageContext.request.contextPath}/project'">프로젝트 찾기</span></button>
+        <button type="button" class="button button-modify-resume"><span onclick="location.href='${pageContext.request.contextPath}/resume'">프리랜서 찾기</span></button>
 </div><br>
 
 <div id="left2">
@@ -157,37 +159,35 @@ h5{
 <div id="right">
 <div class="btn-group" role="group" aria-label="Basic example">
   <label><button type="button" class="btn btn-primary" id="sortMatching">매칭순</button>
-  <button type="button" class="btn btn-primary" id="sortReadcount">조회순</button></label>
+  <button type="button" class="btn btn-primary" id="sortSalary">급여순</button></label>
 </div>
-	<table class="table">
+
+<table class="table">
   <thead>
     <tr>
 <th scope="col">글번호</th>
 <th scope="col">제목</th>
-<th scope="col">회사명</th>
-<th scope="col">등록일</th>
+<th scope="col">이름</th>
 <th scope="col">매칭횟수</th>
-<th scope="col">조회수</th>
+<th scope="col">희망급여</th>
 </tr>
 </thead>
-
-    <c:forEach var="projectDTO" items="${projectBoardList }">
-    	<tr onclick="location.href='${pageContext.request.contextPath}/project_content?num=${projectDTO.p_num }'">
-    		<td>${projectDTO.p_num}</td>
-    	    <td class="left">${projectDTO.p_title}</td>
-    		<td>${projectDTO.name}</td>
-    		<td><fmt:formatDate value="${projectDTO.p_writedate}" pattern="yyyy.MM.dd"/></td>
-    		<td>${projectDTO.matching }</td>
-    		<td>${projectDTO.p_readcount}</td>
+	<c:forEach var="resumeDTO" items="${resumeBoardList }">
+    	<tr onclick="location.href='${pageContext.request.contextPath}/resume/resume_content?num=${resumeDTO.r_num }'">
+    		<td>${resumeDTO.r_num}</td>
+    	    <td class="left">${resumeDTO.r_name}</td>
+    		<td>${resumeDTO.name}</td>
+    		<td>${resumeDTO.matching }</td>
+    		<td>${resumeDTO.r_salary}</td>
     	</tr>
     </c:forEach>
-
 </table>
-	<form action="${pageContext.request.contextPath}/project" method="get">
+
+	<form action="${pageContext.request.contextPath}/board/searchFree" method="get">
 	<select name="select">
-	<option value="p_title" selected>제목</option>
-	<option value="p_content">내용</option>
-	<option value="name123">회사명</option>
+	<option value="r_name" selected>제목</option>
+	<option value="r_content">내용</option>
+	<option value="name123">이름</option>
 	</select>
 	<input type="text" class="search" name="search">
 	<input type="submit" value="검색" class="btn btn-primary">
@@ -195,15 +195,15 @@ h5{
 	
 	<div id="page_control">
 <c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-	<a href="${pageContext.request.contextPath}/project?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
+	<a href="${pageContext.request.contextPath}/resume/resume?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
 </c:if>
 
 <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-<a href="${pageContext.request.contextPath}/project?pageNum=${i}&search=${pageDTO.search}">${i}</a>
+<a href="${pageContext.request.contextPath}/resume/resume?pageNum=${i}&search=${pageDTO.search}">${i}</a>
 </c:forEach>
 
 <c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-	<a href="${pageContext.request.contextPath}/project?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
+	<a href="${pageContext.request.contextPath}/resume/resume?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
 </c:if>
 	</div>
 </div>
@@ -212,9 +212,9 @@ h5{
 </div>
 
 <!--	Footer Start -->
-    <jsp:include page="bottom_240213.jsp"/>
+    <jsp:include page="../inc/bottom.jsp"/>
 <!--	Footer End -->
-
+        
 <script type="text/javascript">
 $(function(){
 	

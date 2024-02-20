@@ -20,15 +20,14 @@ import com.itwillbs.domain.PageDTO;
 import com.itwillbs.service.ProjectService;
 import com.itwillbs.service.ResumeService;
 
-
-
 @Controller
+@RequestMapping("/board/*")
 public class ResumeController {
 
 	@Inject
 	private ResumeService resumeService;
 	
-	@RequestMapping(value = "/resume", method = RequestMethod.GET)
+	@GetMapping("/searchFree")
 	public String resume(HttpServletRequest request, PageDTO pageDTO, Model model) {
 		//검색어 가져오기(notice submit에서 name = "search")
 		String search = request.getParameter("search");
@@ -82,7 +81,7 @@ public class ResumeController {
 		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("resumeBoardList", resumeBoardList);
 		
-		return "searchFree_240213";
+		return "board/searchFree";
 	
 	} //resume()
 	

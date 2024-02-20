@@ -20,12 +20,13 @@ import com.itwillbs.service.ProjectService;
 import com.itwillbs.service.ResumeService;
 
 @Controller
+@RequestMapping("/board/*")
 public class ProjectController {
 
 	@Inject
 	private ProjectService projectService;
 	
-	@RequestMapping(value = "/project", method = RequestMethod.GET)
+	@GetMapping("/searchCom")
 	public String project(HttpServletRequest request, PageDTO pageDTO, Model model) {
 		//검색어 가져오기(notice submit에서 name = "search")
 		String search = request.getParameter("search");
@@ -79,7 +80,7 @@ public class ProjectController {
 		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("projectBoardList", projectBoardList);
 		
-		return "searchCom_240213";
+		return "board/searchCom";
 	
 	} //project()
 	
