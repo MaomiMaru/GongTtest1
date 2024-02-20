@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="com.itwillbs.mappers.boardMapper" 
+       => boardMapper 파일 => xml 파일이름 -->
+<mapper namespace="com.itwillbs.mappers.MemberMapper">
+	
+	<select id="userCheck" resultType="com.itwillbs.domain.MemberDTO"> 
+		select * from member 
+		where id = #{id} and pw = #{pw} 
+	</select>
+
+
+	<insert id="insertMember">
+	 	insert into member(id, pw, name, phone, email, comnum, type) 
+		 values (#{id}, #{pw}, #{name}, #{phone}, #{email}, #{num}, #{type}) 
+	</insert>
+
+	<select id="getCompanyCount" resultType="java.lang.Integer">
+		select count(*) from member where type = 1
+	</select>
+
+	<select id="getMatchingCount" resultType="java.lang.Integer">
+		select sum(matching) from member
+	</select>
+	
+		<select id="getMember" resultType="com.itwillbs.domain.MemberDTO">
+			select * from member
+			where id = #{id}
+	</select>
+	
+		<update id="updateMember">
+			update member set pw = #{pw}, name = #{name}, phone=#{phone}, email=#{email}
+			where id = #{id}
+		</update>
+	
+		<select id="projectCheck" resultType="com.itwillbs.domain.ProjectDTO">
+			select p_title, p_writedate, p_member from project
+			where id = #{id}
+		</select>
+		
+		<select id="resumeScrap" resultType="com.itwillbs.domain.Scrap_resumeDTO">
+			select fm.name, r.r_name
+			from scrap_resume s join member m
+			on s.id = m.id 
+			join resume r
+			on s.r_num = r.r_num
+			join member fm
+			on r.id = fm.id
+			where m.id = #{id}
+		</select>
+	
+			<select id="projectScrap" resultType="com.itwillbs.domain.Scrap_projectDTO">
+			select fm.name, p.p_title
+			from scrap_project s join  member m
+			on s.id = m.id 
+			join project p
+			on s.p_num = p.p_num
+			join member fm
+			on p.id = fm.id
+			where m.id = #{id}
+		</select>
+	
+		<delete id="deleteMember">
+			delete from member 
+			where id = #{id}
+		</delete>
+	
+	<select id="resumeCheck" resultType="com.itwillbs.domain.ResumeDTO">
+			select r_name, r_io, r_head from resume
+			where id = #{id}
+		</select>
+		
+		<select id="ChattingCheck" resultType="com.itwillbs.domain.ChattingDTO">
+			select c_title, id, c_date, c_matching from chatting
+			where id = #{id}
+		</select>
+	
+	
+		
+		
+	
+</mapper>
+
+

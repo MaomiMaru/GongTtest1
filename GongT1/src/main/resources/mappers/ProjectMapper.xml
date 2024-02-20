@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="com.itwillbs.mappers.boardMapper" 
+       => boardMapper 파일 => xml 파일이름 -->
+<mapper namespace="com.itwillbs.mappers.ProjectMapper">
+
+	<select id="getProjectCount" resultType="java.lang.Integer">
+		select count(*) from project
+	</select>
+	
+	<select id="getMember" resultType="com.itwillbs.domain.MemberDTO"> select m.* from member m join project p on m.id = p.id where p.p_num = #{p_num}
+	 </select>
+<select id="getProject" resultType="com.itwillbs.domain.ProjectDTO"> select p.*, f.field, rg.region from project p join field f on p.field_num = f.field_num join region rg on p.region_num = rg.region_num where p.p_num = #{p_num} 
+</select>
+	
+	
+		<insert id="insertProject">
+			insert into project(p_title, p_content, p_deadline, p_start, p_end, p_member, region_num, field_num )
+			values (#{p_title},#{p_content}, #{p_deadline}, #{p_start}, #{p_end}, #{p_member}, #{region_num}, #{field_num})
+			where id = #{id}
+		</insert>
+		
+	
+		
+</mapper>
+
+
