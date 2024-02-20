@@ -3,6 +3,7 @@ package com.itwillbs.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.domain.ChattingDTO;
 import com.itwillbs.domain.MemberDTO;
@@ -49,7 +51,7 @@ public class MemberController {
 		MemberDTO memberDTO2 = memberService.userCheck(memberDTO);
 		if(memberDTO2 != null) {
 			session.setAttribute("id",memberDTO2.getId());
-			session.setAttribute("type",memberDTO2.getType());
+		
 		
 			return "redirect:/main/main";
 		} else {
@@ -66,7 +68,7 @@ public class MemberController {
 	@PostMapping("/main/joinPro")
 	public String insertPro(MemberDTO memberDTO) {
 		System.out.println("MemberController insertPro()");
-		memberService.insertMember(memberDTO);
+//		memberService.insertMember(memberDTO);
 		return "redirect:/main/login";
 	}
 	
@@ -84,11 +86,147 @@ public class MemberController {
 		return "/main/insertFreelancer";
 	}
 	
+	@PostMapping("/main/insertFreelancerPro")
+	public String insertFreelancerPro(MemberDTO memberDTO) {
+		System.out.println("MemberController insertFreelancerPro()");
+		memberService.insertMember(memberDTO);
+		return "redirect:/main/main";
+	}
+	
+	//아이디 중복확인
+	
 	@GetMapping("/main/insertCompany")
 	public String insertCompany() {
 		System.out.println("MemberController insertCompany()");
 		return "/main/insertCompany";
 	}
+	
+	@PostMapping("/main/insertCompanyPro")
+	public String insertCompanyPro(MemberDTO memberDTO) {
+		System.out.println("MemberController insertCompanyPro()");
+		memberService.insertMember(memberDTO);
+		
+		return "redirect:/main/main";
+	}
+	
+	@GetMapping("/main/searchID")
+	public String searchID() {
+		System.out.println("MemberController searchID()");
+		return "/main/searchID";
+	}
+	
+	@PostMapping("/searchIDPro")
+	public String searchIDPro(MemberDTO memberDTO, Model model) {
+		System.out.println("MemberController searchIDPro()");
+		MemberDTO memberDTO2 = new MemberDTO();
+		memberDTO2 = memberService.userCheckID(memberDTO);
+		if(memberDTO2!=null) {
+			model.addAttribute("memberDTO2", memberDTO2);
+			return "/main/findID";
+		} else {
+			return "/main/msg_search";
+		}
+	}
+	
+	@PostMapping("/main/findID")
+	public String findID(MemberDTO memberDTO, HttpSession session) {
+		System.out.println("MemberController findID()");
+		session.getAttribute(memberDTO.getId());
+		return "redirect:/main/findID";
+	}
+
+	
+	@GetMapping("/main/searchPW")
+	public String searchPW() {
+		System.out.println("MemberController searchPW()");
+		return "/main/searchPW";
+	}
+	
+	@PostMapping("/main/searchPWPro")
+	public String searchPWPro(MemberDTO memberDTO, Model model) {
+		System.out.println("MemberController searchPWPro()");
+		MemberDTO memberDTO2 = new MemberDTO();
+		memberDTO2 = memberService.userCheckPW(memberDTO);
+		if(memberDTO2!=null) {
+			model.addAttribute("memberDTO2", memberDTO2);
+			return "/main/findPW";
+		} else {
+			return "/main/msg_search";
+		}
+	}
+	
+	//아이디 중복확인
+		@GetMapping("/main/idCheck")
+		@ResponseBody
+		public String idCheck(MemberDTO memberDTO, HttpServletResponse response) {
+			System.out.println("MemberController idCheck()");
+			System.out.println(memberDTO);
+			MemberDTO memberDTO1 = memberService.getMember(memberDTO.getId());
+			System.out.println(memberDTO1);
+			String result ="";
+			if(memberDTO1 != null) {
+				result = "iddup";
+			}else {
+				result = "idok";
+			}
+			System.out.println(result);
+			return result;
+		}
+		
+		//사업자 번호 중복확인
+		@GetMapping("/main/comnumCheck")
+		@ResponseBody
+		public String comnumCheck(MemberDTO memberDTO, HttpServletResponse response) {
+			System.out.println("MemberController comnumCheck()");
+			System.out.println(memberDTO);
+			MemberDTO memberDTO1 = memberService.getComNum(memberDTO.getComnum());
+			System.out.println(memberDTO1);
+			String result ="";
+			if(memberDTO1 != null) {
+				result = "comnumdup";
+			}else {
+				result = "comnumok";
+			}
+			System.out.println(result);
+			return result;
+		}
+		
+		//이메일 중복확인
+		@GetMapping("/main/emailCheck")
+		@ResponseBody
+		public String emailCheck(MemberDTO memberDTO, HttpServletResponse response) {
+			System.out.println("MemberController emailCheck()");
+			System.out.println(memberDTO);
+			MemberDTO memberDTO1 = memberService.getEmail(memberDTO.getEmail());
+			System.out.println(memberDTO1);
+			String result ="";
+			if(memberDTO1 != null) {
+				result = "emaildup";
+			}else {
+				result = "emailok";
+			}
+			System.out.println(result);
+			return result;
+		}
+		
+		//전화번호 중복확인
+		@GetMapping("/main/phoneCheck")
+		@ResponseBody
+		public String phoneCheck(MemberDTO memberDTO, HttpServletResponse response) {
+			System.out.println("MemberController phoneCheck()");
+			System.out.println(memberDTO);
+			MemberDTO memberDTO1 = memberService.getPhone(memberDTO.getPhone());
+			System.out.println(memberDTO1);
+			String result ="";
+			if(memberDTO1 != null) {
+				result = "phonedup";
+			}else {
+				result = "phoneok";
+			}
+			System.out.println(result);
+			return result;
+		}
+		
 	
 	@RequestMapping(value = "/main/main", method = RequestMethod.GET)
 	public String main(Model model) {
@@ -98,6 +236,8 @@ public class MemberController {
 		model.addAttribute("matchingcount", memberService.getMatchingCount());
 		return "main/main";
 	}//main
+	
+	
 	
 	@RequestMapping(value = "/mypageCompany/mypageCompany1", method = RequestMethod.GET)
 	public String mypageCompany1(HttpSession session, Model model) {

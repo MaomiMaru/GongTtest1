@@ -25,6 +25,49 @@ public class MemberService {
 		memberDAO.insertMember(memberDTO);
 	}
 	
+	//로그인 시 체크
+		public MemberDTO userCheck(MemberDTO memberDTO) {
+			System.out.println("MemberService userCheck()");
+			return memberDAO.userCheck(memberDTO);
+		}
+
+
+		public MemberDTO userCheckID(MemberDTO memberDTO) {
+			System.out.println("MemberService userCheckID()");
+			return memberDAO.userCheckID(memberDTO);
+		}
+
+		public MemberDTO userCheckPW(MemberDTO memberDTO) {
+			System.out.println("MemberService userCheckPW()");
+			return memberDAO.userCheckPW(memberDTO);
+		}
+
+		public MemberDTO getMember(String id) {
+			System.out.println("MemberService getMember()");
+			return memberDAO.getMember(id);
+			
+		}
+
+		//사업자 번호 확인
+		public MemberDTO getComNum(String comnum) {
+			System.out.println("MemberService getComNum()");
+			return memberDAO.getComNum(comnum);
+		}
+
+		//이메일 확인
+		public MemberDTO getEmail(String email) {
+			System.out.println("MemberService getEmail()");
+			return memberDAO.getEmail(email);
+		}
+
+		public MemberDTO getPhone(String phone) {
+			System.out.println("MemberService getPhone()");
+			return memberDAO.getPhone(phone);
+		}
+		
+		
+	
+	
 	
 	public int getCompanyCount() {
 		System.out.println("MemberService getCompanyCount()");
@@ -38,17 +81,10 @@ public class MemberService {
 		return memberDAO.getMatchingCount();
 	}//getMemberCount()
 	
-	public MemberDTO getMember(String id) {
-		System.out.println("MemberService getMember()");
-		
-		return memberDAO.getMember(id);
-	}//getMember()
 	
-	public MemberDTO userCheck(MemberDTO memberDTO) {
-		System.out.println("MemberService userCheck()");
-		
-		return memberDAO.userCheck(memberDTO);
-	}//userCheck()
+	
+
+	
 	
 	public void updateMember(MemberDTO memberDTO) {
 		System.out.println("MemberService updateMember()");

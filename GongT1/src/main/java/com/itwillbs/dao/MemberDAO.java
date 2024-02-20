@@ -23,10 +23,55 @@ public class MemberDAO {
 	private static final String namespace="com.itwillbs.mappers.MemberMapper";
 	
 
-	public void insertMember(MemberDTO memberDTO) {
-		System.out.println("MemberDAO insertMember()");
-		sqlSession.insert(namespace+".insertMember",memberDTO);
-	}
+	//회원가입
+		public void insertMember(MemberDTO memberDTO) {
+			System.out.println("MemberDAO insertMember()");
+			System.out.println(memberDTO.getId());
+			//Company_num의 값이 null이 아니면 Member_type을 1로 지정하여 기업회원으로 구분
+			if(memberDTO.getComnum() != null) {
+				memberDTO.setType(1);
+			} else {
+				memberDTO.setType(0);
+			}
+			System.out.println(memberDTO.getComnum());
+			sqlSession.insert(namespace+".insertMember",memberDTO);
+		}
+
+		//아이디 찾기
+		public MemberDTO userCheckID(MemberDTO memberDTO) {
+			System.out.println("MemberDAO userCheckID()");
+			return sqlSession.selectOne(namespace+".userCheckID", memberDTO);
+		}
+
+		public MemberDTO userCheckPW(MemberDTO memberDTO) {
+			System.out.println("MemberDAO userCheckPW()");
+			return sqlSession.selectOne(namespace+".userCheckPW", memberDTO);
+		}
+
+		public MemberDTO getMember(String id) {
+			System.out.println("MemberDAO  getMember()");
+			return sqlSession.selectOne(namespace+".getMember", id);
+		}
+		
+		//사업자번호 중복 확인
+		public MemberDTO getComNum(String comnum) {
+			System.out.println("MemberDAO getComNum()");
+			return sqlSession.selectOne(namespace+".getComNum", comnum);
+		}
+
+		//이메일 중복 확인
+		public MemberDTO getEmail(String email) {
+			System.out.println("MemberDAO getEmail()");
+			return sqlSession.selectOne(namespace+".getEmail", email);
+		}
+
+		//전화번호 중복확인
+		public MemberDTO getPhone(String phone) {
+			System.out.println("MemberDAO getPhone()");
+			return sqlSession.selectOne(namespace+".getPhone", phone);
+		}
+		
+		
 	
 	public int getCompanyCount() {
 		System.out.println("CompanyDAO getCompanyCount()");
@@ -40,11 +85,7 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace + ".getMatchingCount");
 	}//getMatchingCount()
 	
-	public MemberDTO getMember(String id) {
-		System.out.println("MemberDAO getMember()");
-		
-		return sqlSession.selectOne(namespace + ".getMember", id);
-	}//getMember()
+
 	
 	public MemberDTO userCheck(MemberDTO memberDTO) {
 		System.out.println("MemberDAO userCheck()");

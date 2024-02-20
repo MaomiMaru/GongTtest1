@@ -15,7 +15,15 @@ padding: 20px;
 border-radius: 8px;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
+button {
+background-color: blue;
+color: white;
+padding: 10px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+width: 100px;
+}
 
 </style>
 </head>
@@ -26,7 +34,10 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 <form action="" method="post">
         <h2>아이디 찾기 결과</h2>
             <label for="id">찾으시는 아이디는 </label><br>
-            <h2>${memberDTO2.id }</h2>입니다.
+            <h2>${memberDTO2.id }</h2>입니다.<br>
+            <center>	
+            <button type="reset" value="취소" class="cancel" onclick="history.go(-2)">돌아가기</button>
+            </center>
         </form>
     </div>
     <br><br><br><br><br><br><br>
