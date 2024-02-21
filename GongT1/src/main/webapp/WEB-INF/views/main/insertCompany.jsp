@@ -173,28 +173,31 @@ $(".comnum").on('keydown keyup', function(){
      var str = this.value;
      var tmp = '';
      var bullet = '-';
-
-     if (str.length > 3) {
-         tmp += str.substr(0, 3);
-         tmp += bullet;
-         tmp += str.substr(3);
-         this.value = tmp;
-     }  else if (str.length > 5) {
-             tmp += str.substr(0, 4);
-             tmp += bullet;
-             tmp += str.substr(4);
-             this.value = tmp;
-     } else if (str.length > 8) {
-         tmp += str.substr(0, 3);
-         tmp += bullet;
-         tmp += str.substr(4, 2);
-         tmp += bullet;
-         tmp += str.substr(6, 5);
-         this.value = tmp;
-     } else {
+	
+     //"문자열".substr(startIndex, length);
+   	 if (str.length > 3 && str.length < 7) {
+       tmp += str.substr(0, 3);
+       tmp += bullet;
+       tmp += str.substr(3);
+       this.value = tmp;
+   	 }else if(str.length == 7){
+   		tmp += str.substr(0, 2);
+        tmp += bullet;
+        tmp += str.substr(2);
+        this.value = tmp;	 
+   	 }else if(str.length > 7){
+   		tmp += str.substr(0, 3);
+	    tmp += bullet;
+	    tmp += str.substr(3, 2);
+	    tmp += bullet;
+	    tmp += str.substr(5);
+	    this.value = tmp;
+   	 }
+   	 else {
          this.value = str;
-     }
- });
+   	 } 	    
+
+});
 
 //전화번호 하이픈
 $(".phone").on('keydown keyup',function() {
