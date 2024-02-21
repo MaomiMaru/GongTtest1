@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+<title>공티 - 반갑습니다.</title>
 <style>
 	#img{
 		background-image: url("${pageContext.request.contextPath}/resources/computer1.png");

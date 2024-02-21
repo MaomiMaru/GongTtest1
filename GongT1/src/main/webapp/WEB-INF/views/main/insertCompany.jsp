@@ -61,17 +61,17 @@ width: 100px;
 <input type="text" name="name" maxlength="20" required><br>
 <sub>※기업명을 입력해주세요.</sub>
 <h3>사업자 번호</h3>
-<input type="text" name="comnum" required>
+<input type="text" name="comnum" class="comnum" maxlength="12" required>
 <button value="중복확인" class="dupcomnum">중복확인</button><br>
-<sub>※사업자 등록번호를 하이픈과 함께 입력해주세요.</sub>
+<sub>※사업자 등록번호를 입력해주세요.</sub>
 <div class="dupdivcomnum"></div><br>
 <h3>이메일</h3>
-<input type="email" name="email" class="email" required>
+<input type="email" name="email" class="email" maxlength="50" required>
 <button value="중복확인" class="dupemail">중복확인</button><br>
 <sub>※이메일을 입력해주세요.</sub>
 <div class="dupdivemail"></div><br>
 <h3>전화번호</h3>
-<input type="text" name="phone" class="phone" required>
+<input type="text" name="phone" class="phone" maxlength="13" required>
 <button value="중복확인" class="dupphone">중복확인</button><br>
 <sub>※전화번호를 입력해주세요.</sub>
 <div class="dupdivphone"></div><br>
@@ -164,9 +164,76 @@ $(function() {
 	});
 	
 });
+
+//하이픈
+//사업자번호 하이픈
+$(".comnum").on('keydown keyup', function(){
+	 this.value = this.value.replace(/[^0-9]/g, '');
+
+     var str = this.value;
+     var tmp = '';
+     var bullet = '-';
+
+     if (str.length > 3) {
+         tmp += str.substr(0, 3);
+         tmp += bullet;
+         tmp += str.substr(3);
+         this.value = tmp;
+     }  else if (str.length > 5) {
+             tmp += str.substr(0, 4);
+             tmp += bullet;
+             tmp += str.substr(4);
+             this.value = tmp;
+     } else if (str.length > 8) {
+         tmp += str.substr(0, 3);
+         tmp += bullet;
+         tmp += str.substr(4, 2);
+         tmp += bullet;
+         tmp += str.substr(6, 5);
+         this.value = tmp;
+     } else {
+         this.value = str;
+     }
+ });
+
+//전화번호 하이픈
+$(".phone").on('keydown keyup',function() {
+              this.value = this.value.replace(/[^0-9]/g, '');
+
+              var str = this.value;
+              var tmp = '';
+              var bullet = '-';
+
+              if (str.length > 3 && str.length < 8) {
+                  tmp += str.substr(0, 3);
+                  tmp += bullet;
+                  tmp += str.substr(3);
+                  this.value = tmp;
+              } else if (str.length == 8) {
+                  tmp += str.substr(0, 4);
+                  tmp += bullet;
+                  tmp += str.substr(4);
+                  this.value = tmp;
+              } else if (str.length == 10) {
+                  tmp += str.substr(0, 2);
+                  tmp += bullet;
+                  tmp += str.substr(2, 4);
+                  tmp += bullet;
+                  tmp += str.substr(6); // 10자리일때
+                  this.value = tmp;
+              } else if (str.length > 8) {
+                  tmp += str.substr(0, 3);
+                  tmp += bullet;
+                  tmp += str.substr(3, 4);
+                  tmp += bullet;
+                  tmp += str.substr(7, 4);
+                  this.value = tmp;
+              } else {
+                  this.value = str;
+              }
+          });
 </script>
 
 
-<!-- 중복확인 참고할 사이트 : https://heannim-world.tistory.com/117 -->
 </body>
 </html>
