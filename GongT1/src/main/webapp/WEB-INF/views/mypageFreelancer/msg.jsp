@@ -8,12 +8,10 @@
 </head>
 <body>
 <script type="text/javascript">
-		alert("아이디 비밀번호 틀림");
+		alert("비밀번호가 누락되었거나 비밀번호가 틀렸습니다.");
 		//뒤로이동
 		history.back();
 </script>
-
-
 
 </body>
 </html>

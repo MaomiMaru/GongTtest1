@@ -6,13 +6,28 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 - 프리랜서</title>
+<style>
+input{
+height: 45px;
+width: 400px;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+}
+.content {
+  padding: 1rem;
+/*   font-size: 2rem; */
+  border-radius: 1rem;
+}
+</style>
 <link href="//i.jobkorea.kr/content/css/ver_2/common-sv-202401301659.css" rel="stylesheet" type="text/css" />
 <link href="//i.jobkorea.kr/content/css/ver_2/text_user/resume/view.css?v=202402061400" rel="stylesheet" type="text/css" />
-
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-
-
 <div id="border">
 	</div>
 	<div class="sidemenu-wrap" style="margin-left:-1660px; margin-top: 195px;">
@@ -35,32 +50,117 @@
         <div class="resume-view-wrapper" >
         <br><br>
             <div class="resume-view-container" style="height: 700px !important">
-                <div class="resume-subject" style="text-align: center !important;">마이 페이지(프리랜서)</div>
+                <div class="resume-subject">회원정보 수정</div>
+                <div><p>비밀번호 입력 시, 이메일 및 연락처를 변경할 수 있습니다.</p></div>
 
 
 <div class="summary col-4"></div>
 <div class="list list-education"></div>
 <br><br><br>
 <form action="${pageContext.request.contextPath}/updatePro" id="join" method="post">
-<fieldset style="text-align: center; font-size: 20px; width: 100%; height: 80%;" >
-<label>아이디</label><br>
-<input type="text" name="id" class="id" value="${sessionScope.id}" readonly style="font-size:20px; text-align: center;"><br>
-<label>비밀번호</label><br>
-<input type="password" name="pw" value="${sessionScope.pw}" style="font-size:20px; text-align: center;"><br>
-<label>E-Mail</label><br>
-<input type="email" name="email" value="${sessionScope.email}"  style="font-size:20px; text-align: center;"><br>
-<label>연락처</label><br>
-<input type="text" name="phone" value="${sessionScope.phone}" style="font-size:20px; text-align: center;"><br><br>
-<input type="submit" value="수정하기" class="submit" style="font-size:20px;">
+<fieldset>
+<h4>아이디</h4>
+<input type="text" name="id" class="id" value="${sessionScope.id}" readonly><br>
+<h4>이름</h4>
+<input type="text" name="name" class="name" value="${sessionScope.name}" readonly><br>
+<h4>비밀번호</h4>
+<input type="password" name="pw" class="pw" maxlength="20"><br>
+<h4>이메일</h4>
+<input type="email" name="email" class="email" maxlength="50" >
+<input type="button" value="중복확인" class="dupemail" style="background-color: blue; width: 100px; color: white;"><br>
+<sub>※이메일을 입력해주세요.</sub>
+<div class="dupdivemail"></div><br>
+<h4>전화번호</h4>
+<input type="text" name="phone" class="phone" maxlength="13">
+<input type="button" value="중복확인" class="dupphone" style="background-color: blue; width: 100px; color: white;"><br>
+<sub>※전화번호를 입력해주세요.</sub>
+<div class="dupdivphone"></div><br>
+<input type="submit" value="수정하기" class="submit" style="background-color: blue; color: white;">
 </fieldset>
 </form>
-        
-
-
  			</div>
         </div>
     </div>
  <br><br><br><br><br>
 <jsp:include page="../inc/bottom.jsp" />
+<script type="text/javascript">
+$(function() {
+	//이메일 중복 확인
+	$(".dupemail").click(function(){
+	$.ajax({
+		url : '${pageContext.request.contextPath}/main/emailCheck',
+		data : {'email' : $('.email').val()}, 
+		success : function(result){
+			if(result=="emaildup"){
+				result = "사용불가능한 이메일입니다.";
+				$(".dupdivemail").css("color", "red");
+			}else{
+				result = "사용가능한 이메일입니다.";
+				$(".dupdivemail").css("color", "green");
+			}
+			$('.dupdivemail').html(result);
+			}
+		});
+
+	});
+	
+	//전화번호 중복 확인
+	$(".dupphone").click(function(){
+	$.ajax({
+		url : '${pageContext.request.contextPath}/main/phoneCheck',
+		data : {'phone' : $('.phone').val()}, 
+		success : function(result){
+			if(result=="phonedup"){
+				result = "사용불가능한 전화번호입니다.";
+				$(".dupdivphone").css("color", "red")
+			}else{
+				result = "사용가능한 전화번호입니다.";
+				$(".dupdivphone").css("color", "green")
+			}
+			$('.dupdivphone').html(result);
+			}
+		});
+
+	});
+	
+});
+
+//전화번호 하이픈
+$(".phone").on('keydown keyup',function() {
+              this.value = this.value.replace(/[^0-9]/g, '');
+
+              var str = this.value;
+              var tmp = '';
+              var bullet = '-';
+
+              if (str.length > 3 && str.length < 8) {
+                  tmp += str.substr(0, 3);
+                  tmp += bullet;
+                  tmp += str.substr(3);
+                  this.value = tmp;
+              } else if (str.length == 8) {
+                  tmp += str.substr(0, 4);
+                  tmp += bullet;
+                  tmp += str.substr(4);
+                  this.value = tmp;
+              } else if (str.length == 10) {
+                  tmp += str.substr(0, 2);
+                  tmp += bullet;
+                  tmp += str.substr(2, 4);
+                  tmp += bullet;
+                  tmp += str.substr(6); // 10자리일때
+                  this.value = tmp;
+              } else if (str.length > 8) {
+                  tmp += str.substr(0, 3);
+                  tmp += bullet;
+                  tmp += str.substr(3, 4);
+                  tmp += bullet;
+                  tmp += str.substr(7, 4);
+                  this.value = tmp;
+              } else {
+                  this.value = str;
+              }
+          });
+</script>
 </body>
 </html>

@@ -50,7 +50,7 @@ class="show position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex 
 <div class="navbar-nav ms-auto mx-xl-auto p-0">
 <a href="${pageContext.request.contextPath}/board/searchCom" class="nav-item nav-link">프로젝트 찾기</a>
 <a href="${pageContext.request.contextPath}/board/searchFree" class="nav-item nav-link">프리랜서 찾기</a>
-<a href="community.html" class="nav-item nav-link">커뮤니티</a>
+<a href="${pageContext.request.contextPath}/Admin/notice"  class="nav-item nav-link">커뮤니티</a>
 </div>
 <c:if test="${empty sessionScope.id }">
 <div>

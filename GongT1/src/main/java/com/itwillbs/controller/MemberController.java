@@ -48,11 +48,14 @@ public class MemberController {
 	@PostMapping("/main/loginPro")
 	public String loginPro(MemberDTO memberDTO, HttpSession session) {
 		System.out.println("MemberController loginPro()");
+		System.out.println(memberDTO.getType());
 		MemberDTO memberDTO2 = memberService.userCheck(memberDTO);
+		
 		if(memberDTO2 != null) {
 			session.setAttribute("id",memberDTO2.getId());
-		
-		
+			session.setAttribute("type",memberDTO2.getType());
+			session.setAttribute("name",memberDTO2.getName());
+			
 			return "redirect:/main/main";
 		} else {
 			return "main/msg";
@@ -230,6 +233,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "/main/main", method = RequestMethod.GET)
 	public String main(Model model) {
+		
 		model.addAttribute("projectcount", projectService.getProjectCount());
 		model.addAttribute("resumecount", resumeService.getResumeCount());
 		model.addAttribute("companycount", memberService.getCompanyCount());
@@ -380,7 +384,7 @@ public class MemberController {
 	
 	
 	@PostMapping("/updatePro")
-	public String updatePro(MemberDTO memberDTO) {
+	public String updatePro(MemberDTO memberDTO, HttpSession session) {
 		System.out.println("MemberController updatePro()");
 		System.out.println(memberDTO);
 		
@@ -388,6 +392,9 @@ public class MemberController {
 		
 		if(memberDTO2 != null) {
 		memberService.updateMember(memberDTO);
+		session.setAttribute("pw",memberDTO2.getPw());
+		session.setAttribute("email", memberDTO2.getEmail());
+		session.setAttribute("phone", memberDTO2.getPhone());
 		
 		return "redirect:/main/main";
 		}else {

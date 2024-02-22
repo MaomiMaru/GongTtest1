@@ -123,7 +123,7 @@ public class MemberDAO {
 	public void deleteMember(MemberDTO memberDTO) {
 		System.out.println("MemberService deleteMember()");
 		
-		sqlSession.insert(namespace+".deleteMember" , memberDTO);
+		sqlSession.delete(namespace+".deleteMember" , memberDTO);
 	}//deleteMember()
 	
 	public List<ResumeDTO> resumeCheck(String id) {
